@@ -6,20 +6,27 @@
         sh 'echo passed'
       }
   }
-    stage('Build and Test and Analysis') {
+    stage('Build and Test') {
       agent {
           docker {
           image 'maven:3.9.7-eclipse-temurin-21-alpine'
           args '-u root'
         }
   }
-      environment {
-        SONAR_URL = "http://13.126.144.149:9000"
-      }
-      steps {
+steps {
         sh 'ls -ltr'
         // build the project and create a JAR file
         sh 'mvn clean package'
+}
+}
+  stage('Analysis') {
+        agent {
+          docker {
+          image 'maven:3.9.7-eclipse-temurin-21-alpine'
+          args '-u root'
+        }
+  }
+      steps {
         withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
           sh 'mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
         }
