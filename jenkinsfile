@@ -13,16 +13,13 @@
           args '-u root'
         }
   }
-
+      environment {
+        SONAR_URL = "http://13.126.144.149:9000"
+      }
       steps {
         sh 'ls -ltr'
         // build the project and create a JAR file
         sh 'mvn clean package'
-      }
-    environment {
-        SONAR_URL = "http://13.126.144.149:9000"
-      }
-       steps {
         withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
           sh 'mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
         }
