@@ -37,11 +37,11 @@ pipeline {
       }
     }
     stage('Build and Push Docker Image') {
-    agent{
-      docker {
-    image 'docker'        
-    }
-  }
+   // agent{
+    //  docker {
+   // image 'docker'        
+   // }
+ // }
       environment {
         DOCKER_IMAGE = "ashudhub/petclinic:${BUILD_NUMBER}"
         // DOCKERFILE_LOCATION = "Dockerfile"
@@ -51,7 +51,7 @@ pipeline {
         script {
             sh 'docker build -t ${DOCKER_IMAGE} .'
             def dockerImage = docker.image("${DOCKER_IMAGE}")
-            docker.withRegistry('https://hub.docker.com/', "docker-cred") {
+            docker.withRegistry('https://hub.docker.com/', 'docker-cred') {
                 dockerImage.push()
             }
         }
