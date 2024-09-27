@@ -45,6 +45,7 @@ steps {
         DOCKER_IMAGE = "ashudhub/petclinic:${BUILD_NUMBER}"
         // DOCKERFILE_LOCATION = "Dockerfile"
         REGISTRY_CREDENTIALS = credentials('docker')
+        HOME = "${env.WORKSPACE}"
       }
       steps {
         script {
