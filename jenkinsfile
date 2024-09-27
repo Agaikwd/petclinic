@@ -9,7 +9,8 @@ pipeline {
     stage('Build and Test') {
     agent{
       docker {
-    image 'maven:3.9.7-eclipse-temurin-21-alpine'        
+    image 'maven:3.9.7-eclipse-temurin-21-alpine'
+    args '-u root'
     }
   }
       steps {
